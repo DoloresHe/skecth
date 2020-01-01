@@ -134,3 +134,18 @@ Route::post('password/reset', 'API\PassportController@postReset');
 
     }  
 
+
+
+
+
+update：
+
+ 1. 'email' => 'required|email|email'
+ 手误
+ 已更正
+ 2. test情况已全部补充
+ 3. 修改 格式错误代码为422，
+        当天注册，12小时内已发送过重置邮件不能重置密码409
+ 4. 完善重置密码的逻辑：
+    但验证token和email配对成功后将重置表的时间修改过期（避免在验证token有效未修改密码之前有第二个请求导致冲突），然后再进行用户表修改邮箱时间校验（依然避免并发冲突），再进行修改密码操作
+（后面这个时间校验放在redis比较合适）
